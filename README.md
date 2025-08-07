@@ -109,19 +109,19 @@ This project was designed with full compliance to Microsoft Windows guidelines f
 
 | Stage | Feature / Goal                    | Description                                                                       |
 | ----- | --------------------------------- | --------------------------------------------------------------------------------- |
-| ✅     | Dev-C++ Integration               | Ensure compatibility with legacy IDE for educational and lightweight builds       |
-| ✅     | Console-based SSH Launcher        | Launch `ssh.exe` with parameters using `CreateProcessW` and `ShellExecute`        |
-| ✅     | Windows Icon & Manifest Embedding | Include UAC awareness, versioning, and branding in `.rc` files                    |
-| 🧩    | C++ GUI Frontend                  | Build a lightweight Win32 GUI using pure API calls or integrate Qt for modern UI  |
-| ⏺     | Session Logger                    | Log each SSH session's start/end time, username, target IP, return codes          |
-| 🔐    | SSH Key Generator                 | Use `CryptGenKey` or `NCryptCreatePersistedKey` to generate RSA/ED25519 key pairs |
-| 🔄    | Key Storage Management            | Encrypt private keys using DPAPI (`CryptProtectData`) and store in `%APPDATA%`    |
-| 📡    | Remote Config Fetch               | Load SSH connection profiles from an INI, JSON or remote config server            |
-| 🧪    | Integration Tests                 | Automated CLI tests for connection handling, output capture, and error resilience |
-| 📦    | Portable Executable               | Build a fully portable version (single EXE + INI + icons), without installer      |
-| 🪟    | Windows Installer                 | Create `.msi` or `.exe` installer with icon registration, registry keys, etc.     |
-| 📜    | Localized UI Support              | Add UTF-8 multilingual support using `StringTable` and Windows `LocaleNameToLCID` |
-| 📚    | Documentation Site                | Host user/developer documentation via GitHub Pages or mkdocs                      |
+| 1     | Dev-C++ Integration               | Ensure compatibility with legacy IDE for educational and lightweight builds       |
+| 2     | Console-based SSH Launcher        | Launch `ssh.exe` with parameters using `CreateProcessW` and `ShellExecute`        |
+| 3     | Windows Icon & Manifest Embedding | Include UAC awareness, versioning, and branding in `.rc` files                    |
+| 4     | C++ GUI Frontend                  | Build a lightweight Win32 GUI using pure API calls or integrate Qt for modern UI  |
+| 5     | Session Logger                    | Log each SSH session's start/end time, username, target IP, return codes          |
+| 6     | SSH Key Generator                 | Use `CryptGenKey` or `NCryptCreatePersistedKey` to generate RSA/ED25519 key pairs |
+| 7     | Key Storage Management            | Encrypt private keys using DPAPI (`CryptProtectData`) and store in `%APPDATA%`    |
+| 8     | Remote Config Fetch               | Load SSH connection profiles from an INI, JSON or remote config server            |
+| 9     | Integration Tests                 | Automated CLI tests for connection handling, output capture, and error resilience |
+| 10    | Portable Executable               | Build a fully portable version (single EXE + INI + icons), without installer      |
+| 11    | Windows Installer                 | Create `.msi` or `.exe` installer with icon registration, registry keys, etc.     |
+| 12    | Localized UI Support              | Add UTF-8 multilingual support using `StringTable` and Windows `LocaleNameToLCID` |
+| 13    | Documentation Site                | Host user/developer documentation via GitHub Pages or mkdocs                      |
 
 ---
 
