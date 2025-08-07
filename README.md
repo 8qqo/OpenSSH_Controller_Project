@@ -25,10 +25,4 @@ which has instructions for [building](https://github.com/PowerShell/Win32-OpenSS
 | 04/08/2025 | 9.8.2.0 | https://github.com/PowerShell/openssh-portable/releases/tag/v9.8.2.0 |
 | 04/18/2025 | 9.8.3.0 | https://github.com/PowerShell/openssh-portable/releases/tag/v9.8.3.0 |
 
-## Code of Conduct
 
-Please see our [Code of Conduct](.github/CODE_OF_CONDUCT.md) before participating in this project.
-
-## Security Policy
-
-For any security issues, please see our [Security Policy](.github/SECURITY.md).
