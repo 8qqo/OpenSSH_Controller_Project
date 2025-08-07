@@ -1,0 +1,19 @@
+// resource.rc
+
+#include "resource.h"
+
+// --- 圖示 ---
+// *** 請將 "OpenSSH.ico" 替換成您自己的圖示檔名 ***
+IDI_MAINICON ICON "myicon.ico"
+
+// --- 字串表 (STRINGTABLE) ---
+// 這是存放所有介面文字的地方
+STRINGTABLE
+BEGIN
+    // 終端機的歡迎訊息
+    // 注意：資源檔中的換行符 \r\n 必須寫成兩個反斜線 \\r\\n
+    IDS_WELCOME_MSG "Microsoft Windows [版本 10.0.22631]\n著作權: Martin (c) Microsoft Corporation. 著作權所有，並保留一切權利。\n安裝最新的 PowerShell 以取得新功能和改進功能！https://aka.ms/PSWindows"
+    
+    // 輸入框的提示文字
+    IDS_INPUT_HINT  "在這裡輸入指令..."
+END

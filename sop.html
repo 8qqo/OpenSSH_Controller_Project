@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenSSH Controller 使用說明 & 伺服器設定指南</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #005a9c;
+            border-bottom: 2px solid #005a9c;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: none;
+            font-size: 2.2em;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Consolas", "Courier New", monospace;
+            color: #c7254e;
+        }
+        .step {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 3px solid #0078d4;
+        }
+        .important {
+            background-color: #fff4e5;
+            border: 1px solid #ff9800;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .important::before {
+            content: "💡 重要提示：";
+            font-weight: bold;
+            color: #ff9800;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .tool-ui li {
+            list-style-type: '🔧';
+            padding-left: 10px;
+        }
+        .button-link {
+            display: inline-block;
+            background-color: #0078d4;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .button-link:hover {
+            background-color: #005a9c;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>OpenSSH Controller 使用說明 &<br>伺服器設定指南</h1>
+
+    <p>本文件旨在引導您如何使用「OpenSSH Controller」工具，並完整設定一台 Windows 11 電腦作為 SSH 伺服器，以便從其他裝置（如 iPad、Mac 或其他電腦）進行遠端連線。</p>
+
+    <h2>第一部分：使用 OpenSSH Controller 工具</h2>
+    <p>這個工具為您提供了一個圖形化介面，來快速管理 Windows 內建的 OpenSSH 服務。</p>
+    <ul class="tool-ui">
+        <li><strong>啟動服務</strong>：啟動 SSH 伺服器，使其可以接受外部連線。</li>
+        <li><strong>停止服務</strong>：停止 SSH 伺服器。</li>
+        <li><strong>重啟服務</strong>：當您修改設定後，使用此按鈕來重新啟動服務，讓新設定生效。</li>
+        <li><strong>編輯設定檔</strong>：快速用記事本打開 SSH 的核心設定檔 <code>sshd_config</code>。</li>
+        <li><strong>刷新連線</strong>：手動更新右側的連線列表，查看目前有哪些裝置正連線到您的伺服器。</li>
+        <li><strong>使用說明</strong>：打開這份說明文件。</li>
+    </ul>
+
+    <h2>第二部分：Windows 11 伺服器端設定 (SOP)</h2>
+
+    <div class="step">
+        <h3>步驟 1：安裝 OpenSSH 伺服器 (若未安裝)</h3>
+        <p>Windows 11 通常內建 OpenSSH 元件，您可以透過以下步驟安裝。如果遇到問題或想查看詳細的官方指南，請點擊下方按鈕。</p>
+        
+        <!-- *** 新增的按鈕連結 *** -->
+        <a href="https://learn.microsoft.com/zh-tw/windows-server/administration/openssh/openssh_install_firstuse?tabs=gui&pivots=windows-server-2025" target="_blank" class="button-link">
+            前往微軟官方 OpenSSH 安裝指南
+        </a>
+        
+        <ol>
+            <li>前往 Windows「設定」 > 「應用程式」 > 「選用功能」。</li>
+            <li>點擊「檢視功能」。</li>
+            <li>搜尋「<strong>OpenSSH 伺服器</strong>」，勾選並點擊「下一步」進行安裝。</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>步驟 2：為您的 Windows 帳戶設定密碼</h3>
+        <div class="important">SSH 不允許沒有密碼的帳戶登入。</div>
+        <ol>
+            <li>前往「設定」 > 「帳戶」 > 「登入選項」。</li>
+            <li>點擊「密碼」，為您要用來遠端登入的帳戶設定一個密碼。</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>步驟 3：允許密碼登入 (通常需要)</h3>
+        <ol>
+            <li>在「OpenSSH Controller」工具中，點擊「<strong>編輯設定檔</strong>」按鈕。</li>
+            <li>在打開的記事本中，找到 <code>#PasswordAuthentication yes</code> 或 <code>PasswordAuthentication no</code> 這一行。</li>
+            <li>將其修改為 <strong><code>PasswordAuthentication yes</code></strong> (請務必移除開頭的 <code>#</code> 符號)。</li>
+            <li>儲存並關閉記事本。</li>
+            <li>回到工具，點擊「<strong>重啟服務</strong>」讓設定生效。</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>步驟 4：設定 Windows 防火牆</h3>
+        <p>為了讓外部裝置可以連線，必須在防火牆上開啟 SSH 的通道。</p>
+        <ol>
+            <li>在 Windows 搜尋列中輸入「防火牆」，開啟「<strong>Windows Defender 防火牆進階安全性</strong>」。</li>
+            <li>點擊左側的「<strong>輸入規則</strong>」，然後點擊右側的「<strong>新增規則...</strong>」。</li>
+            <li><strong>規則類型</strong>：選擇「<strong>連接埠</strong>」。</li>
+            <li><strong>通訊協定及連接埠</strong>：選擇「<strong>TCP</strong>」，並在「特定本機連接埠」中輸入 <code>22</code>。</li>
+            <li><strong>動作</strong>：選擇「<strong>允許連線</strong>」。</li>
+            <li><strong>設定檔</strong>：將「網域」、「私人」、「公用」<strong>全部勾選</strong>。</li>
+            <li><strong>名稱</strong>：輸入一個易於辨識的名稱，例如 <code>Allow SSH</code>，然後點擊「完成」。</li>
+        </ol>
+    </div>
+
+    <h2>第三部分：取得連線資訊並從遠端裝置連線</h2>
+
+    <div class="step">
+        <h3>步驟 1：取得伺服器 IP 位址</h3>
+        <ol>
+            <li>在 Windows 上打開「命令提示字元 (CMD)」或「PowerShell」。</li>
+            <li>輸入 <code>ipconfig</code> 並按 Enter。</li>
+            <li>找到您目前連線的網路（Wi-Fi 或乙太網路），記下其「<strong>IPv4 位址</strong>」(例如 <code>192.168.1.100</code>)。</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>步驟 2：取得正確的使用者名稱</h3>
+        <div class="important">這是最關鍵的步驟！登入畫面顯示的名稱不一定是系統內部的帳戶名稱。</div>
+        <ol>
+            <li>同樣在 CMD 或 PowerShell 中，輸入 <code>whoami</code> 並按 Enter。</li>
+            <li>系統會顯示類似 <code>電腦名稱\使用者名稱</code> 的格式 (例如 <code>tuf-laptop\martin</code>)。</li>
+            <li>您真正需要的是斜線 <code>\</code> <strong>後面</strong>的那串文字 (在此範例中為 <code>martin</code>)。</li>
+        </ol>
+    </div>
+    
+    <div class="step">
+        <h3>步驟 3：從您的 iPad 或其他裝置連線</h3>
+        <ol>
+            <li>在您的遠端裝置上打開任何 SSH 連線 App。</li>
+            <li>建立一個新的連線，並填入以下資訊：
+                <ul>
+                    <li><strong>主機/位址 (Address/Hostname)</strong>: 填入您在<strong>步驟 1</strong> 查到的 IPv4 位址。</li>
+                    <li><strong>連接埠 (Port)</strong>: <code>22</code> (通常是預設值)。</li>
+                    <li><strong>使用者名稱 (Username)</strong>: <strong>一字不差地</strong>填入您在<strong>步驟 2</strong> 查到的真正使用者名稱。</li>
+                    <li><strong>密碼 (Password)</strong>: 填入您在「伺服器端設定」的步驟 2 中為該帳戶設定的 Windows 密碼。</li>
+                </ul>
+            </li>
+            <li>點擊「連線 (Connect)」。</li>
+        </ol>
+    </div>
+
+</body>
+</html>
